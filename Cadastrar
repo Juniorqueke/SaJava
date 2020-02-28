@@ -1,0 +1,76 @@
+package br.com.senai;
+
+import android.app.AlertDialog;
+import android.widget.Button;
+import android.widget.EditText;
+
+
+import android.content.DialogInterface;
+import android.view.View;
+
+public class Cadastrar { // objetos criados
+    MainActivity Mainact;
+    EditText ednome,edendereco,edtelefone;
+    Button btcadastrar, btcancelar;
+    Principal tela_principal;
+
+    //método construtor
+    public Cadastrar(MainActivity Mainact,Principal tela_principal){
+        this.Mainact = Mainact;
+        this.tela_principal = tela_principal;
+    }
+
+    // método carregar os componentes na tela
+// junção com a classe R (arquivo java com o arquivo xml(design))
+    public void CarregarTela(){
+        Mainact.setContentView(R.layout.cadastrodeusuario);
+        ednome = (EditText) Mainact.findViewById(R.id.txt_nome);
+        edendereco = (EditText) Mainact.findViewById(R.id.txt_endereco);
+        edtelefone = (EditText) Mainact.findViewById(R.id.txt_Telefone);
+        btcadastrar = (Button) Mainact.findViewById(R.id.btn_cadastrar);
+        btcancelar = (Button) Mainact.findViewById(R.id.btn_cancelar);
+
+//ação do botão cadastrar
+        btcadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {AlertDialog.Builder dialogo =
+                    new AlertDialog.Builder(Mainact);
+                dialogo.setTitle("Aviso");
+                dialogo.setMessage("Confirma o cadastro?");
+                dialogo.setNegativeButton("Não",null);
+                dialogo.setPositiveButton("Sim", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//pega o conteúdo que o usuário digitou
+                                String nome = ednome.getText().toString();
+                                String endereco = edendereco.getText().toString();
+                                String telefone = edtelefone.getText().toString();
+//grava os dados no vetor de objetos
+                                Mainact.getMeuRegistro().add(new registro(nome,endereco,telefone));
+                                Mainact.ExibirMensagem("Cadastro efetuado com sucesso!","Aviso");
+                                tela_principal.CarregarTela();
+                            }
+                        });
+                dialogo.show();
+            }
+        });
+        btcancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                AlertDialog.Builder dialogo = new AlertDialog.Builder(Mainact);
+                dialogo.setTitle("Aviso");
+                dialogo.setMessage("Deseja cancelar?");
+                dialogo.setNegativeButton("Não",null);
+                dialogo.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tela_principal.Carregar_Tela();
+                    }
+                });
+                dialogo.show();
+            }
+        });
+
+    }
+} 
