@@ -1,0 +1,45 @@
+package br.com.senai;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    private ArrayList<registro> MeuRegistro;
+    Cadastrar tela_cadastrar;
+    Listar tela_listar;
+    Principal tela_principal;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        MeuRegistro = new ArrayList<registro>();
+        tela_cadastrar = new Cadastrar(this, tela_principal);
+        tela_listar = new Listar(this, tela_principal);
+        tela_principal = new Principal(tela_cadastrar);
+    }
+
+    public ArrayList<registro> getMeuRegistro() {
+        return MeuRegistro;
+    }
+
+    public void ExibirMensagem(String msg) {
+        AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
+        alerta.setTitle("Alerta");
+        alerta.setMessage(msg);
+        alerta.setNeutralButton("Ok", null);
+        alerta.show();
+    }
+
+    public void ExibirDialogo(String msg, String titulo) {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(MainActivity.this);
+        dialogo.setTitle(titulo);
+        dialogo.setMessage(msg);
+        dialogo.setNegativeButton("Não", null);
+        dialogo.setNegativeButton("Sim", null);
+    }
+}
